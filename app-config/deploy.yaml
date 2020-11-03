@@ -11,7 +11,7 @@ spec:
         app.kubernetes.io/name: app
     spec:
       containers:
-      - image: harbor-repo.vmware.com/tanzu_delivery_pipeline_demo/demo-app@sha256:9635da42a0c11614eb58622a7e268c91386e4adb85d85416b80d156f6d5e9843
+      - image: harbor-repo.vmware.com/tanzu_delivery_pipeline_demo/demo-app@sha256:d5ec9935cb8a28fa21105b674f87465bdd8686e48cfc91ee23a667e927b3bdc4
         command:
         - /cnb/lifecycle/launcher
         env:
