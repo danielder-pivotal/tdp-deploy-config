@@ -16,5 +16,5 @@ spec:
         - /cnb/lifecycle/launcher
         env:
         - name: REDIS_ADDR
-          value: '{{ .Inputs.serviceName }}:6379'
+          value: 'redis:6379'
         name: app
