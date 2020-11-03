@@ -1,5 +1,6 @@
 #@ load("@ytt:data", "data")
 ---
+
 apiVersion: apps/v1
 kind: Deployment
 spec:
@@ -18,5 +19,22 @@ spec:
           command: [ /cnb/lifecycle/launcher ]
           env:
             - name: REDIS_ADDR
-              value: "{{ .Inputs.serviceName }}:6379"
+              value: "redis:6379"
           name: app
+
+---
+
+apiVersion: v1
+kind: Service
+metadata:
+  labels:
+    app.kubernetes.io/name: app
+  name: app
+spec:
+  ports:
+    - port: 8080
+      protocol: TCP
+      targetPort: 8080
+  selector:
+    app.kubernetes.io/name: app
+  type: ClusterIP
