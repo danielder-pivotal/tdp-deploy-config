@@ -40,3 +40,31 @@ spec:
   selector:
     app.kubernetes.io/name: app
   type: ClusterIP
+
+---
+
+apiVersion: rbac.authorization.k8s.io/v1
+kind: ClusterRole
+metadata:
+  name: vmware-restrictired-psp-use
+rules:
+  - apiGroups: ['policy']
+    resources: ['podsecuritypolicies']
+    verbs:     ['use']
+    resourceNames:
+      - vmware-system-restricted
+
+---
+apiVersion: rbac.authorization.k8s.io/v1
+kind: ClusterRoleBinding
+metadata:
+  name: kontinue-manager-psp
+roleRef:
+  kind: ClusterRole
+  name: vmware-restrictired-psp-use
+  apiGroup: rbac.authorization.k8s.io
+subjects:
+  - kind: ServiceAccount
+    name: default
+    namespace: demo-app
+
