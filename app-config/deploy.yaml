@@ -13,16 +13,14 @@ spec:
         app.kubernetes.io/name: app
     spec:
       containers:
-      - image: harbor-repo.vmware.com/tanzu_delivery_pipeline_demo/demo-app@sha256:d5e55f43f322ad3531c3d136d61bfd4a3007d8d8244778efb58c21ecb18c4924
+      - image: harbor-repo.vmware.com/tanzu_delivery_pipeline_demo/demo-app@sha256:e33f0ded4f6b8b8be37c4e6bdc14e22d2971e034bc3777e17c97e737b313ec28
         command:
         - /cnb/lifecycle/launcher
         env:
         - name: REDIS_ADDR
-          value: 'redis:6379'
+          value: redis:6379
         name: app
-
 ---
-
 apiVersion: v1
 kind: Service
 metadata:
@@ -31,26 +29,26 @@ metadata:
   name: app
 spec:
   ports:
-    - port: 8080
-      protocol: TCP
-      targetPort: 8080
+  - port: 8080
+    protocol: TCP
+    targetPort: 8080
   selector:
     app.kubernetes.io/name: app
   type: ClusterIP
-
 ---
-
 apiVersion: rbac.authorization.k8s.io/v1
 kind: ClusterRole
 metadata:
   name: vmware-restrictired-psp-use
 rules:
-  - apiGroups: ['policy']
-    resources: ['podsecuritypolicies']
-    verbs:     ['use']
-    resourceNames:
-      - vmware-system-restricted
-
+- apiGroups:
+  - policy
+  resources:
+  - podsecuritypolicies
+  verbs:
+  - use
+  resourceNames:
+  - vmware-system-restricted
 ---
 apiVersion: rbac.authorization.k8s.io/v1
 kind: ClusterRoleBinding
@@ -61,6 +59,6 @@ roleRef:
   name: vmware-restrictired-psp-use
   apiGroup: rbac.authorization.k8s.io
 subjects:
-  - kind: ServiceAccount
-    name: default
-    namespace: demo-app
+- kind: ServiceAccount
+  name: default
+  namespace: demo-app
